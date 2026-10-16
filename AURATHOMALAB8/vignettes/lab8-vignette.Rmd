@@ -1,0 +1,44 @@
+---
+title: "lab8-vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{lab8-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r}
+library(knitr)
+devtools::load_all() # Loads your package directly from the root project folder
+```
+
+```{r}
+library(AURATHOMALAB8)
+```
+
+```{r}
+# Directly calling the function and storing the result
+results <- mysimA(iter = 1000)
+
+# Printing or using the results
+print(results$meanA)
+```
+```{r}
+results <- mysimB(iter = 1000)
+
+# Printing or using the results
+print(results$meanB)
+```
+```{r}
+# Generate the histogram and blue theoretical curve
+histY(iter = 1000)
+```
+
+
