@@ -7,38 +7,41 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
-
-```{r}
-library(knitr)
-devtools::load_all() # Loads your package directly from the root project folder
-```
-
-```{r}
 library(AURATHOMALAB8)
+library(knitr)
 ```
 
-```{r}
-# Directly calling the function and storing the result
-results <- mysimA(iter = 1000)
 
-# Printing or using the results
-print(results$meanA)
+```{r}
+# call function
+mysimA(iter = 1000)
 ```
 ```{r}
-results <- mysimB(iter = 1000)
-
-# Printing or using the results
-print(results$meanB)
+# call function 
+mysimB(iter = 1000)
 ```
 ```{r}
 # Generate the histogram and blue theoretical curve
 histY(iter = 1000)
 ```
 
+Commit
 
+![commit8.png](commit8.png)
+
+
+Check
+── R CMD check results ─────────────────────────────────────────────────────────────── AURATHOMALAB8 0.1.0 ────
+Duration: 18.1s
+ checking installed package size ... NOTE
+    installed size is 14.9Mb
+    sub-directories of 1Mb or more:
+      app  14.7Mb
+
+0 errors ✔ | 0 warnings ✔ | 1 note ✖

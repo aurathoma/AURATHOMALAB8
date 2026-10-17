@@ -1,0 +1,28 @@
+Package: AURATHOMALAB8
+Type: Package
+Title: Bivariate Distributions and Interactive Simulations
+Version: 0.1.0
+Authors@R: c(
+    person(
+      "Aura", "Thoma",
+      email = "aurathoma@gmail.com",
+      role = c("aut", "cre")
+    )
+  )
+Description: Provides simulation functions for bivariate transformations, 
+  theoretical density plots, and a Shiny application for Lab 8.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
+Imports: 
+    shiny
+URL: https://github.com/aurathoma/AURATHOMALAB8
+BugReports: https://github.com/aurathoma/AURATHOMALAB8/issues
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Depends: 
+    R (>= 3.5)
+
