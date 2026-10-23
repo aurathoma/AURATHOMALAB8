@@ -1,0 +1,38 @@
+---
+title: "Train-Lateness-Guide"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Train-Lateness-Guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(AURATHOMALAB9)
+```
+
+```{r}
+# Probability Density Function at y = 0
+dtrain(0)
+
+# Cumulative Distribution Function at q = 1
+ptrain(1)
+
+# Quantile Function for probability p = 0.5 (Median)
+qtrain(0.5)
+
+# Generate a small random sample of train lateness times
+set.seed(42)
+samples <- rtrain(n = 5, u = 0.5)
+samples
+```
+```{r eval=FALSE}
+# To launch the interactive Shiny app in your console, run:
+lab9app()
+```
+
+
