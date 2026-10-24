@@ -4,8 +4,6 @@
 #'
 #' @export
 lab9app <- function() {
-  library(shiny)
-  library(ggplot2)
 
   ui <- fluidPage(
     titlePanel("Train lateness"),

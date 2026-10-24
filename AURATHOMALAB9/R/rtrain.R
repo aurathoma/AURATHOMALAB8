@@ -1,3 +1,6 @@
+# Prevent R CMD check note for unquoted variables
+utils::globalVariables(c("x"))
+
 #' Random Generation for Train Lateness
 #'
 #' Generates random samples from the custom train lateness distribution using inverse transform sampling, along with diagnostic plots.

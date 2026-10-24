@@ -1,1 +1,7 @@
 exportPattern("^[[:alpha:]]+")
+importFrom("graphics", "abline", "axis", "curve", "hist", "lines", "polygon", "text")
+importFrom("stats", "runif", "uniroot")
+importFrom("shiny", "fluidPage", "titlePanel", "sidebarLayout", "sidebarPanel",
+           "sliderInput", "mainPanel", "plotOutput", "brushOpts",
+           "verbatimTextOutput", "shinyApp")
+
