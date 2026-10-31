@@ -1,0 +1,215 @@
+---
+title: "AURATHOMALAB10"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{AURATHOMALAB10}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+```{r setup}
+library(AURATHOMALAB10)
+read.csv("DDT.csv")
+```
+
+# Task 1 {-}
+
+$$L(p) = \prod_{i=1}^{3} \binom{n}{x_i} p^{x_i} (1-p)^{n-x_i}$$
+$$L(p) = \binom{20}{9}p^9(1-p)^{11} \times \binom{20}{10}p^{10}(1-p)^{10} \times \binom{20}{11}p^{11}(1-p)^{9}$$
+$$L(p) = \left[ \binom{20}{9} \binom{20}{10} \binom{20}{11} \right] p^{30}(1-p)^{30}$$
+
+
+```{r}
+# Define the binomial log-likelihood function
+logbin <- function(x, param) log(dbinom(x, prob = param, size = 10))
+
+# Set up the parameter grid for probability p
+param_grid <- seq(0, 1, length = 1000)
+
+# Call the maximum likelihood function 
+mle_task1 <- mymaxlik(lfun = logbin, 
+                      x = c(2), 
+                      param = param_grid, 
+                      xlab = expression(p), 
+                      main = "Binomial MLE Grid Search")
+
+# View the returned MLE summary/list
+mle_task1
+```
+
+
+b. The first index covers where the max log likelihood value occurs. The next part of the function covers the MLE for p. The next part of the function covers p hat. The last part of the function covers the slope of the peak. 
+
+c. The value of p hat that is likely to generate the observed data out of the total number of trials. 
+
+```{r}
+# call the function to find the roots
+v <- mymaxlik(x=c(2),
+         param=seq(0,1,length=1000),
+         lfun=logbin,xlab=expression(pi),
+         main="Binomial",
+         cex.main=2)
+```
+
+
+n = 20
+x = (9,10,11)
+
+
+
+# Task 2 {-}
+
+a. The radioactive decay follows the poisson distribution
+c. The list returns the MLE value at a particular parameter estimate. The log MLE value at a particular estimate and the slopes for each paramters estimate were also returned. 
+
+```{r}
+# Log-likelihood function for Poisson 
+logpoiss <- function(x, param) log(dpois(x, lambda = param))
+
+# Data vector
+y <- c(5, 5, 6, 7)
+
+# Grid of parameter values for lambda
+param <- seq(0, 15, length = 1000)
+
+# Function call
+mymaxlik(x = y, param = param, lfun = logpoiss, xlab = expression(lambda), main = "Poisson")
+
+# return list
+output <- mymaxlik(lfun = logpoiss, x = y, param = param, xlab = expression(lambda), main = "Poisson")
+
+# inspect the list
+output
+
+# access items in the list
+output$parami
+output$yi
+output$slope
+```
+
+
+# Task 3 {-} 
+
+```{r}
+# Log-likelihood function for Poisson
+logpoiss <- function(x, param) log(dpois(x, lambda = param))
+
+# Data vector for Task 3
+y_decay <- c(5, 5, 6, 7)
+
+# candidate lambda values
+param_broad <- seq(0, 15, length = 1000)
+
+# Call function
+refined_mle <- mymld(lfun = logpoiss, x = y_decay, param = param_broad, delta = 0.0001)
+
+# Display estimate 
+refined_mle
+```
+
+
+# Task 4 {-}
+
+
+```{r}
+# calculate log of probability functions 
+logbin3 <- function(theta) {
+  log(dbinom(4, prob = theta, size = 10)) + 
+  log(dbinom(12, prob = theta, size = 20)) + 
+  log(dbinom(7, prob = theta, size = 15))
+}
+
+# create sequence 
+theta_grid <- seq(0, 1, length = 10000)
+# call function 
+mle_comp <- mymaxlikg(lfun = "logbin3", theta = theta_grid)
+# display output 
+mle_comp
+```
+
+# Task 5 {-}
+
+
+b. The output returns the estimate for the mean which maximizes the joint likelihood, which closely matches the sample mean. The output also returns the estimate of the standard deviation which maximizes the joint likelihood and the peak joint likelihood value. 
+
+```{r}
+# create vector and number sequence 
+x_norm <- c(5, 7, 7, 8, 10)
+mu_grid <- seq(4, 11, length = 500)
+sig_grid <- seq(0.5, 5, length = 500)
+
+# call function 
+norm_mle <- mymlnorm(x = x_norm, mu = mu_grid, sig = sig_grid)
+
+# Estimated parameters
+list(muest = norm_mle$muest, sigest = norm_mle$sigest, maxl = norm_mle$maxl)
+```
+```{r}
+
+mynewt(x0 = 10,
+       delta = 0.000001,
+       f = function(x) x^2-4,
+       fdash = function(x) 2*x )
+```
+
+# Task 6 {-}
+mynew_improved changed the calculation of the derivative from the original function derivative calculation.  
+
+```{r, fig.width=7, fig.height=5}
+myNRML(x0 = 0.99, delta = 0.00001, 
+       llik = function(x) log(dbinom(12, size = 20, prob = x) * dbinom(10, size = 25, prob = x)), 
+       xrange = c(0.01, 0.99), parameter = "p")
+```
+
+```{r}
+g <- function(x) x^2 - 5*x + 6
+
+# Root 1 starting at x0 = 1
+root1 <- mynewt_improved(x0 = 1, delta = 0.00001, f = g, xlim = c(0, 5))
+cat("Root 1 converged to:", root1$x[length(root1$x)], "\n")
+
+# Root 2 starting at x0 = 4
+root2 <- mynewt_improved(x0 = 4, delta = 0.00001, f = g, xlim = c(0, 5))
+cat("Root 2 converged to:", root2$x[length(root2$x)], "\n")
+```
+
+# Task 7 {-}
+
+
+
+```{r}
+# set seed 
+set.seed(39)
+# create random sequence of numbers
+sam_data <- rnorm(25, mean = 25, sd = 10)
+
+# boostrap function 
+boot_out <- myboot(iter = 10000, x = sam_data, fun = "mean", alpha = 0.05, 
+                   xlab = "Sample Mean", col = "Purple")
+
+# 95% Confidence Interval bounds
+boot_out$ci
+```
+```{r}
+# create CI and bootstrap for DDT dataset
+weight_data <- DDT$WEIGHT  
+# bootstrap function
+boot_ddt <- myboot(iter = 10000, x = weight_data, fun = "mean", alpha = 0.05,
+                   xlab = "LMBASS Weight", col = "Purple")
+# create confidence interval
+boot_ddt$ci
+
+# t test conf int
+t.test(weight_data)$conf.int
+```
+
+# Task 8 {-}
+
+The app function was improved by using the apply function to compute summary statistics. This allowed for a more efficient use of bootstrapping. 
+
